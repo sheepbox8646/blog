@@ -7,6 +7,7 @@
           'rounded-r-full': index === links.length - 1,
           'rounded-l-full': index === 0,
           // 'bg-#FFFFFF66': index !== 0 && index !== links.length - 1,
+          'hover:bg-[#FFFFFF66] transition-all duration-300': currentLink !== link.text,
           'bg-white': currentLink === link.text
         }"
         @click="() => {
@@ -20,6 +21,23 @@
 </template>
 
 <script setup lang="ts">
+const router = useRouter()
+const currentLink = defineModel<string>({
+
+})
+
+onMounted(() => {
+  currentLink.value = (() => {
+    const map = [
+      ['blog', 'Blogs'],
+      ['about', '关于'],
+      ['message', '留言板'],
+      ['link', '友情链接'],
+    ]
+    return map.find(([key]) => router.currentRoute.value.path.includes(key!))?.[1] ?? void 0
+  })()
+})
+
 type Link = {
   text: string
   callback: () => void
@@ -28,7 +46,7 @@ const links: Link[] = [
   {
     text: 'Blogs',
     callback: () => {
-      console.log('Acbox的小站')
+      router.push('/blog')
     }
   },
   {
@@ -56,5 +74,4 @@ const links: Link[] = [
     }
   }
 ]
-const currentLink = ref(links[0]?.text)
 </script>

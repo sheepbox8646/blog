@@ -21,7 +21,7 @@ query($searchQuery: String!, $first: Int!) {
 }
 `.trim()
 
-interface PassageByGithubDiscussion {
+export interface PassageByGithubDiscussion {
   id: string
   number: number
   title: string
